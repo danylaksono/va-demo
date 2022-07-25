@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <!-- leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  
+    <!-- deck.gl standalone bundle -->
+    <script src="https://unpkg.com/deck.gl@^8.8.0/dist.min.js"></script>
+    <!-- deck.gl-leaflet -->
+    <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
+
+    <style>
+      #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+
+  <script type="text/javascript">
+
+const PARKING =
+  'https://geo-server.advanced-infrastructure.co.uk/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=oxford:oxford&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}';
+
+  const map = L.map(document.getElementById('map'), {
+  center: [50.83, -0.106],
+  zoom: 14,
+});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+
+const deckLayer = new DeckGlLeaflet.LeafletLayer({
+  views: [
+    new deck.MapView({
+      repeat: true
+    })
+  ],
+  layers: [
+    new deck.MVTLayer({
+      id: 'mvt',
+      data: PARKING,
+      // Styles               
+      getSourcePosition: f => [-0.10653474866810671, 50.83034992544617], // brighton
+      getTargetPosition: f => f.geometry.coordinates,
+      getFillColor: [200, 0, 80],
+      getWidth: 1
+    })
+  ],
+});
+map.addLayer(deckLayer);
+
+const featureGroup = L.featureGroup();
+featureGroup.addLayer(L.marker([50.83034992544617, -0.10653474866810671]));
+map.addLayer(featureGroup);
+
+  </script>
+</html>
