@@ -50,7 +50,7 @@ const deckLayer = new DeckGlLeaflet.LeafletLayer({
       // Styles               
       getSourcePosition: f => [-0.10653474866810671, 50.83034992544617], // brighton
       getTargetPosition: f => f.geometry.coordinates,
-      getFillColor: [200, 0, 80],
+      getFillColor: f => COLOR_SCALE(f.properties.value),
       getWidth: 1
     })
   ],
