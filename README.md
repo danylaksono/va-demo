@@ -1,22 +1,22 @@
-<div align="center">
-   <img width="150" heigth="150" src="https://webpack.js.org/assets/icon-square-big.svg" />
-</div>
+This is a standalone version of the [OpenStreetMap](https://www.openstreetmap.org/) example using TileLayer and BitmapLayer
+on [deck.gl](http://deck.gl) website.
 
-## Example: Use deck.gl with React
+### Usage
 
-Uses [Webpack](https://github.com/webpack/webpack) to bundle files and serves it
-with [webpack-dev-server](https://webpack.js.org/guides/development/#webpack-dev-server).
-
-## Usage
-
-To install dependencies:
+Copy the content of this folder to your project. 
 
 ```bash
+# install dependencies
 npm install
 # or
 yarn
+# bundle and serve the app with webpack
+npm start
 ```
 
-Commands:
-* `npm start` is the development target, to serve the app and hot reload.
-* `npm run build` is the production target, to create the final bundle and write to disk.
+### Data Source
+
+The sample tiles are loaded from [OpenStreetMap](https://www.openstreetmap.org).
+
+To use your own data, check out
+the [documentation of TileLayer](../../../docs/api-reference/geo-layers/tile-layer.md).

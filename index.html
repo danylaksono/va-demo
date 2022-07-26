@@ -1,65 +1,24 @@
-<html>
-  <head>
-    <!-- leaflet -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-  
-    <!-- deck.gl standalone bundle -->
-    <script src="https://unpkg.com/deck.gl@^8.8.0/dist.min.js"></script>
-    <!-- deck.gl-leaflet -->
-    <script src="https://unpkg.com/deck.gl-leaflet@1.1.1/dist/deck.gl-leaflet.min.js"></script>
-
-    <style>
-      #map {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="map"></div>
-  </body>
-
-  <script type="text/javascript">
-
-const PARKING =
-  'https://geo-server.advanced-infrastructure.co.uk/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=oxford:oxford&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}';
-
-  const map = L.map(document.getElementById('map'), {
-  center: [51.753, -1.245],
-  zoom: 14,
-});
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);
-
-const deckLayer = new DeckGlLeaflet.LeafletLayer({
-  views: [
-    new deck.MapView({
-      repeat: true
-    })
-  ],
-  layers: [
-    new deck.MVTLayer({
-      id: 'mvt',
-      data: PARKING,
-      // Styles                
-      getSourcePosition: f => [-1.245184590946568, 51.75307306057298], // oxford
-      getTargetPosition: f => f.geometry.coordinates,
-      getFillColor: [50, 50, 255],
-      getWidth: 1
-    })
-  ],
-});
-map.addLayer(deckLayer);
-
-const featureGroup = L.featureGroup();
-featureGroup.addLayer(L.marker([51.75307306057298, -1.245184590946568]));
-map.addLayer(featureGroup);
-
-  </script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>deck.gl Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+</body>
+<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript">
+  App.renderToDOM(document.getElementById('app'));
+</script>
 </html>
